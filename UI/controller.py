@@ -5,7 +5,7 @@ from model.model import Model
 '''
     CONTROLLER:
     - Funziona da intermediario tra MODELLO e VIEW
-    - Gestisce la logica del flusso dell'applicazione
+    - Gestisce la logica del flusso dell'applicazione 
 '''
 
 class Controller:
