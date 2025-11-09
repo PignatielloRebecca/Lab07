@@ -67,9 +67,6 @@ class View:
             # Sezione 1
             self.txt_titolo,
             ft.Divider(),
-            #ft.Row([self.lista_musei, self.lista_epoche], alignment=ft.MainAxisAlignment.CENTER),
-            #ft.Row([self.bottone_mostra], alignment=ft.MainAxisAlignment.CENTER),
-
             # Sezione 2: Filtraggio
             row,
             pulsante_row,
