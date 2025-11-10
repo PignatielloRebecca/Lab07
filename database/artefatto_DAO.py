@@ -50,6 +50,77 @@ class ArtefattoDAO:
                 epoche.append(row["epoca"])
 
             return epoche
+    @staticmethod
+
+    def read_all_artefatti_tutti_i_musei():
+        artefatti = []
+        cnx = ConnessioneDB.get_connection()
+        if cnx is None:
+            print("Connessione fallita")
+            return artefatti
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            # Seleziona il nome di tutti gli artefatti
+            query = "SELECT nome FROM artefatto"
+
+            cursor.execute(query)
+
+            for row in cursor:
+                # Assumendo che la colonna si chiami 'nome' nella tabella artefatto
+                artefatti.append(row["nome"])
+
+            cursor.close()
+            cnx.close()
+            return artefatti
+
+    def read_artefatti_per_museo(self, nome):
+        artefatti = []
+        cnx = ConnessioneDB.get_connection()
+
+        if cnx is None:
+            print("Connessione fallita")
+            return artefatti
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            # Seleziona gli artefatti unendo artefatto e museo, filtrando per nome del museo
+            query = ("SELECT artefatto.nome as nomeArtefatto FROM artefatto "
+                     "JOIN museo ON museo.id = artefatto.id_museo "
+                     "WHERE museo.nome = %s")
+
+            cursor.execute(query, (nome,))
+
+            for row in cursor:
+                artefatti.append(row["nomeArtefatto"])
+
+            cursor.close()
+            cnx.close()
+            return artefatti
+
+    def read_artefatti_per_epoca(self, epoca):
+     artefatti = []
+     cnx = ConnessioneDB.get_connection()
+
+     if cnx is None:
+        print("Connessione fallita")
+        return artefatti
+     else:
+        cursor = cnx.cursor(dictionary=True)
+        # Seleziona gli artefatti filtrando per epoca
+        query = "SELECT nome FROM artefatto WHERE epoca = %s"
+
+        cursor.execute(query, (epoca,))
+
+        for row in cursor:
+            artefatti.append(row["nome"])
+
+        cursor.close()
+        cnx.close()
+        return artefatti
+
+
+
+
+
 
 
 

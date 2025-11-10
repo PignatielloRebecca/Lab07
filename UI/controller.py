@@ -20,10 +20,14 @@ class Controller:
     # POPOLA DROPDOWN
     def handler_popola_museo(self):
         musei=self._model.get_musei()
+        opzione="Nessun filtro"
+        musei.insert(0, opzione)
         return musei
 
     def handler_popola_epoca(self):
         epoche = self._model.get_epoche()
+        opzione="Nessun filtro"
+        epoche.insert(0, opzione)
         return epoche
 
     # CALLBACKS DROPDOWN
@@ -37,25 +41,44 @@ class Controller:
     # AZIONE: MOSTRA ARTEFATTI
 
     def handler_mostra_artefatti(self,e):
+        museo = self.museo_selezionato
+        epoca = self.epoca_selezionata
 
-        if not self.museo_selezionato or not self.epoca_selezionata:
-            self._view.alert.show_alert("Seleziona un museo e un'epoca.")
-            return
+        if museo == "Nessun filtro":
+            museo = None
+        if epoca == "Nessun filtro":
+            epoca = None
 
-        artefatti= self._model.get_artefatti_filtrati(self.museo_selezionato, self.epoca_selezionata)
-
-        # Svuoto la lista visiva degli artefatti nella View
+        # Svuota la lista nella view prima di aggiornare
         self._view.lista_artefatti.controls.clear()
-        # se la lista è vuota, nessun risultato trovato
 
-        if len(artefatti)==0:
-            self._view.alert.show_alert("Nessun artefatto trovato per il museo ed epoca selezionati")
-
+        if museo and epoca:
+            artefatti = self._model.get_artefatti_filtrati(museo, epoca)
+            titolo = f"Artefatti del museo '{museo}' dell'epoca '{epoca}'"
+        elif museo:
+            artefatti = self._model.get_artefatti_per_museo(museo)
+            titolo = f"Artefatti presenti nel museo '{museo}'"
+        elif epoca:
+            artefatti = self._model.get_artefatti_per_epoca(epoca)
+            titolo = f"Artefatti dell'epoca '{epoca}'"
         else:
-            # altrimenti aggiungo un elemento per ogni artefatto trovato
+            artefatti = self._model.get_tutti_gli_artefatti()
+            titolo = "Artefatti presenti in tutti i musei"
+
+        if not artefatti:
+            self._view.alert.show_alert("Nessun artefatto trovato per i filtri selezionati.")
+        else:
+             #Titolo della sezione
+            self._view.lista_artefatti.controls.append(
+                ft.Text(titolo, size=18, weight="bold")
+            )
+
+            # Lista artefatti
             for artefatto in artefatti:
-                    self._view.lista_artefatti.controls.append(ft.Text(artefatto))
-            self._view.update()
+                self._view.lista_artefatti.controls.append(ft.Text(str(artefatto)))
+
+        self._view.update()
+
 
 
 

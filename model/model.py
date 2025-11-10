@@ -17,10 +17,22 @@ class Model:
         self._epoche = []
 
     # --- ARTEFATTI ---
-    def get_artefatti_filtrati(self, museo: str, epoca: str):
+    def get_artefatti_filtrati(self, museo: str, epoca:str):
         artefatti = self._artefatto_dao.read_all_artefatti(museo, epoca)
-
         return artefatti
+
+    def get_tutti_gli_artefatti(self):
+        artefatti = self._artefatto_dao.read_all_artefatti_tutti_i_musei()
+        return artefatti
+
+    def get_artefatti_per_museo(self, museo:str):
+        artefatti = self._artefatto_dao.read_artefatti_per_museo(museo)
+        return artefatti
+
+    def get_artefatti_per_epoca(self, epoca:str):
+        artefatti=self._artefatto_dao.read_artefatti_per_epoca(epoca)
+        return artefatti
+
 
     """Restituisce la lista di tutti gli artefatti filtrati per museo e/o epoca (filtri opzionali)."""
 
