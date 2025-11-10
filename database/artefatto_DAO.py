@@ -48,6 +48,8 @@ class ArtefattoDAO:
             cursor.execute(query)
             for row in cursor:
                 epoche.append(row["epoca"])
+            cnx.close()
+            cursor.close()
 
             return epoche
     @staticmethod
