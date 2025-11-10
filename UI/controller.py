@@ -70,7 +70,7 @@ class Controller:
                 titolo = f"Artefatti del museo '{museo}' dell'epoca '{epoca}'"
             elif museo:
                 artefatti = self._model.get_artefatti_per_museo(museo)
-                titolo = f"Artefatti presenti nel museo '{museo}'"
+                titolo = f"Artefatti nel museo '{museo}'"
             elif epoca:
                 artefatti = self._model.get_artefatti_per_epoca(epoca)
                 titolo = f"Artefatti dell'epoca '{epoca}'"
