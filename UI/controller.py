@@ -49,7 +49,6 @@ class Controller:
         if epoca == "Nessun filtro":
             epoca = None
 
-        # Svuota la lista nella view prima di aggiornare
         self._view.lista_artefatti.controls.clear()
 
         if museo and epoca:
