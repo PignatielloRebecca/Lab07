@@ -32,7 +32,6 @@ class Controller:
 
     # CALLBACKS DROPDOWN
     def handler_museo_changed(self,e):
-        ## aggiorna la selezione corrente del museo
         self.museo_selezionato = e.control.value # salvo il museo selezionato
 
     def handler_epoca_changed(self,e):
