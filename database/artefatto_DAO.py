@@ -9,7 +9,6 @@ from model.artefattoDTO import Artefatto
 class ArtefattoDAO:
     def __init__(self):
         pass
-
     # prendo artefatti filtrati per museo ed epoca
     def read_all_artefatti(self, museo, epoca):
         artefatti = []
@@ -31,6 +30,8 @@ class ArtefattoDAO:
             cursor.close()
             cnx.close()
             return artefatti
+
+    #leggo tutte le epoche
 
     @staticmethod
 
@@ -62,13 +63,11 @@ class ArtefattoDAO:
             return artefatti
         else:
             cursor = cnx.cursor(dictionary=True)
-            # Seleziona il nome di tutti gli artefatti
             query = "SELECT nome FROM artefatto"
 
             cursor.execute(query)
 
             for row in cursor:
-                # Assumendo che la colonna si chiami 'nome' nella tabella artefatto
                 artefatti.append(row["nome"])
 
             cursor.close()
@@ -84,7 +83,6 @@ class ArtefattoDAO:
             return artefatti
         else:
             cursor = cnx.cursor(dictionary=True)
-            # Seleziona gli artefatti unendo artefatto e museo, filtrando per nome del museo
             query = ("SELECT artefatto.nome as nomeArtefatto FROM artefatto "
                      "JOIN museo ON museo.id = artefatto.id_museo "
                      "WHERE museo.nome = %s")
@@ -107,7 +105,6 @@ class ArtefattoDAO:
         return artefatti
      else:
         cursor = cnx.cursor(dictionary=True)
-        # Seleziona gli artefatti filtrando per epoca
         query = "SELECT nome FROM artefatto WHERE epoca = %s"
 
         cursor.execute(query, (epoca,))

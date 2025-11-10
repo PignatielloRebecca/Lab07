@@ -24,7 +24,6 @@ class MuseoDAO:
 
             for row in cursor:
                 musei.append(row["nome"])
-
             cnx.close()
             cursor.close()
         return musei

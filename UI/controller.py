@@ -44,39 +44,49 @@ class Controller:
         museo = self.museo_selezionato
         epoca = self.epoca_selezionata
 
-        if museo == "Nessun filtro":
-            museo = None
-        if epoca == "Nessun filtro":
-            epoca = None
-
         self._view.lista_artefatti.controls.clear()
 
-        if museo and epoca:
-            artefatti = self._model.get_artefatti_filtrati(museo, epoca)
-            titolo = f"Artefatti del museo '{museo}' dell'epoca '{epoca}'"
-        elif museo:
-            artefatti = self._model.get_artefatti_per_museo(museo)
-            titolo = f"Artefatti presenti nel museo '{museo}'"
-        elif epoca:
-            artefatti = self._model.get_artefatti_per_epoca(epoca)
-            titolo = f"Artefatti dell'epoca '{epoca}'"
-        else:
+        if museo == "Nessun filtro" and epoca == "Nessun filtro":
             artefatti = self._model.get_tutti_gli_artefatti()
             titolo = "Artefatti presenti in tutti i musei"
+        else:
+            #messaggio di alert per selezionare i filtri
+
+            if not museo:
+                self._view.alert.show_alert("Selezionare filtro")
+                return
+            if not epoca:
+                self._view.alert.show_alert("Selezionare filtro")
+                return
+
+            if museo == "Nessun filtro":
+                museo = None
+            if epoca == "Nessun filtro":
+                epoca = None
+
+            # condizioni filtraggio
+
+            if museo and epoca:
+                artefatti = self._model.get_artefatti_filtrati(museo, epoca)
+                titolo = f"Artefatti del museo '{museo}' dell'epoca '{epoca}'"
+            elif museo:
+                artefatti = self._model.get_artefatti_per_museo(museo)
+                titolo = f"Artefatti presenti nel museo '{museo}'"
+            elif epoca:
+                artefatti = self._model.get_artefatti_per_epoca(epoca)
+                titolo = f"Artefatti dell'epoca '{epoca}'"
 
         if not artefatti:
-            self._view.alert.show_alert("Nessun artefatto trovato per i filtri selezionati.")
+                self._view.alert.show_alert("Nessun artefatto trovato")
         else:
-             #Titolo della sezione
-            self._view.lista_artefatti.controls.append(
-                ft.Text(titolo, size=18, weight="bold")
-            )
+            #Titolo
+            self._view.lista_artefatti.controls.append(ft.Text(titolo, size=18, weight="bold"))
 
             # Lista artefatti
             for artefatto in artefatti:
-                self._view.lista_artefatti.controls.append(ft.Text(str(artefatto)))
+                self._view.lista_artefatti.controls.append(ft.Text(artefatto))
 
-        self._view.update()
+            self._view.update()
 
 
 
